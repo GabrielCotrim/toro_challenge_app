@@ -11,6 +11,7 @@ class AppTheme {
 
   static final ThemeData materialTheme = _materialTheme.copyWith(
     primaryColor: Colors.purple.shade800,
+    backgroundColor: Colors.grey.shade200,
     colorScheme: _materialTheme.colorScheme.copyWith(
       secondary: Colors.purple.shade600,
     ),
@@ -18,5 +19,6 @@ class AppTheme {
 
   static final CupertinoThemeData cupertinoTheme = _cupertinoTheme.copyWith(
     primaryColor: Colors.purple.shade800,
+    scaffoldBackgroundColor: Colors.grey.shade200,
   );
 }

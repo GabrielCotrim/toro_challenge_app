@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toro_challenge/app_theme.dart';
 
 import '../../../core/widgets/platform_stateless_widget.dart';
+import 'top_trends_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,20 +17,8 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
   static const TextStyle _optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const Text _titleBar = Text(
-    AppTheme.appName,
-    style: TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    ),
-  );
-
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: _optionStyle,
-    ),
+    TopTrendsPage(),
     Text(
       'Index 1: Carteira',
       style: _optionStyle,
@@ -44,7 +32,7 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
       label: 'Home',
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.wallet_giftcard),
+      icon: Icon(Icons.wallet_membership),
       label: 'Carteira',
     ),
   ];
@@ -58,11 +46,6 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
   @override
   Widget buildCupertinoWidget(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor:
-            CupertinoTheme.of(context).primaryColor.withOpacity(0.5),
-        middle: _titleBar,
-      ),
       child: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
           items: _bottomItens,
@@ -71,7 +54,12 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
           return CupertinoTabView(
             builder: (BuildContext context) {
               return Center(
-                child: _widgetOptions.elementAt(index),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 20.0,
+                  ),
+                  child: _widgetOptions.elementAt(index),
+                ),
               );
             },
           );
@@ -83,13 +71,13 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
   @override
   Widget buildMaterialWidget(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-        title: _titleBar,
-        centerTitle: true,
-      ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 20.0,
+          ),
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomItens,
