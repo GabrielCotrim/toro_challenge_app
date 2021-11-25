@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toro_challenge/app_theme.dart';
 
 import '../../../core/widgets/platform_stateless_widget.dart';
 
@@ -15,6 +16,15 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
 
   static const TextStyle _optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+  static const Text _titleBar = Text(
+    AppTheme.appName,
+    style: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+  );
 
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
@@ -48,8 +58,10 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
   @override
   Widget buildCupertinoWidget(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Cupertino Store'),
+      navigationBar: CupertinoNavigationBar(
+        backgroundColor:
+            CupertinoTheme.of(context).primaryColor.withOpacity(0.5),
+        middle: _titleBar,
       ),
       child: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
@@ -72,7 +84,9 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
   Widget buildMaterialWidget(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+        title: _titleBar,
+        centerTitle: true,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -80,7 +94,7 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomItens,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Theme.of(context).primaryColor,
         onTap: _onItemTapped,
       ),
     );
