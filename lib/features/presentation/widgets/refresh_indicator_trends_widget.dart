@@ -54,7 +54,7 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(7.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
                         mainAxisSize: MainAxisSize.max,
@@ -101,9 +101,9 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(7.0),
+              padding: const EdgeInsets.all(20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
                     mainAxisSize: MainAxisSize.max,

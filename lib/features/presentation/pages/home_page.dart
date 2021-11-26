@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/widgets/platform_stateless_widget.dart';
 import 'top_trends_page.dart';
+import 'wallet_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,15 +15,9 @@ class HomePage extends StatefulWidget {
 class _HomeStatePage extends PlatformStateWidget<HomePage> {
   int _selectedIndex = 0;
 
-  static const TextStyle _optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   static const List<Widget> _widgetOptions = <Widget>[
     TopTrendsPage(),
-    Text(
-      'Index 1: Carteira',
-      style: _optionStyle,
-    ),
+    WalletPage(),
   ];
 
   static const List<BottomNavigationBarItem> _bottomItens =
