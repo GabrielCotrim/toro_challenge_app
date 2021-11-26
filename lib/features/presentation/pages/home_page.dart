@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/widgets/platform_stateless_widget.dart';
+import '../bloc/user_position_bloc.dart';
 import 'top_trends_page.dart';
 import 'wallet_page.dart';
 
@@ -36,6 +38,12 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    context.read<UserPositionBloc>().add(GetUserPositionEvent());
+    super.initState();
   }
 
   @override
