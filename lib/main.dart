@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toro_challenge/features/presentation/bloc/order_stock_bloc.dart';
 import 'package:toro_challenge/features/presentation/bloc/top_trends_bloc.dart';
 
 import 'app_theme.dart';
@@ -24,6 +25,7 @@ class App extends PlatformStatelessWidget {
       providers: [
         BlocProvider<UserPositionBloc>(create: (context) => sl<UserPositionBloc>()),
         BlocProvider<TopTrendsBLoc>(create: (context) => sl<TopTrendsBLoc>()),
+        BlocProvider<OrderStockBloc>(create: (context) => sl<OrderStockBloc>()),
       ],
       child: child,
     );
