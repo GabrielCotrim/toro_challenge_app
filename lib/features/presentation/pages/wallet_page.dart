@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toro_challenge/features/domain/entities/user_position.dart';
+import 'package:toro_challenge/features/presentation/bloc/generic/response_bloc.dart';
 
 import '../bloc/user_position_bloc.dart';
 import '../widgets/loading_widget.dart';
@@ -45,12 +47,12 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _platform = Theme.of(context).platform;
-    return BlocBuilder<UserPositionBloc, UserPositionState>(
-      builder: (BuildContext context, UserPositionState state) {
+    return BlocBuilder<UserPositionBloc, ResponseState>(
+      builder: (BuildContext context, ResponseState state) {
         if (state is Loading) {
           return const LoadingWidget();
-        } else if (state is Loaded) {
-          final userPosition = state.userPosition;
+        } else if (state is Loaded<UserPosition>) {
+          final userPosition = state.response;
           return Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 20.0,
