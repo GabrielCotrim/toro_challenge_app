@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'features/data/datasources/user_position_remote_data_source.dart';
 import 'features/data/repositories/user_position_repository_impl.dart';
 import 'features/domain/repositories/user_position_repository.dart';
@@ -27,6 +27,11 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<UserPositionRemoteDataSource>(
       () => UserPositionRemoteDataSourceImpl(client: sl()));
-  
-  sl.registerLazySingleton(() => http.Client());
+
+  var options = BaseOptions(
+    baseUrl: 'http://192.168.0.115:49156/api',
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+  );
+  sl.registerLazySingleton(() => Dio(options));
 }
