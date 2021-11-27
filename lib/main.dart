@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toro_challenge/features/presentation/bloc/top_trends_bloc.dart';
 
 import 'app_theme.dart';
 import 'core/widgets/platform_stateless_widget.dart';
@@ -22,6 +23,7 @@ class App extends PlatformStatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<UserPositionBloc>(create: (context) => sl<UserPositionBloc>()),
+        BlocProvider<TopTrendsBLoc>(create: (context) => sl<TopTrendsBLoc>()),
       ],
       child: child,
     );
