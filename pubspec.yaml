@@ -43,7 +43,7 @@ dependencies:
   # Functional programming thingies
   dartz: ^0.10.0
   # Remote API
-  http: ^0.13.4
+  dio: ^4.0.4
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +55,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  # flutter pub run build_runner build or flutter pub run build_runner build --delete-conflicting-outputs
+  build_runner: ^2.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
