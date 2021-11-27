@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import '../../../core/error/exceptions.dart';
 import '../models/user_position_model.dart';
@@ -10,19 +8,14 @@ abstract class UserPositionRemoteDataSource {
 }
 
 class UserPositionRemoteDataSourceImpl implements UserPositionRemoteDataSource {
-  final http.Client client;
+  final Dio client;
   UserPositionRemoteDataSourceImpl({required this.client});
 
   @override
   Future<UserPositionModel> getUserPosition() async {
-    final response = await client.get(
-      Uri.parse('http://localhost:5000/api/patrimonio/userPosition?id=1'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
+    final response = await client.get('/patrimonio/userPosition?id=1');
     if (response.statusCode == 200) {
-      return UserPositionModel.fromJson(json.decode(response.body));
+      return UserPositionModel.fromJson(response.data);
     } else {
       throw ServerException();
     }
