@@ -9,7 +9,7 @@ class GetUserPosition implements UseCase<UserPosition, NoParams> {
   GetUserPosition(this.repository);
 
   @override
-  Future<Either<Failure, UserPosition>?> call(NoParams params) async {
-    return await repository.getUserPosition();
+  Future<Either<Failure, UserPosition>?> call(NoParams params) {
+    return repository.getUserPosition();
   }
 }
