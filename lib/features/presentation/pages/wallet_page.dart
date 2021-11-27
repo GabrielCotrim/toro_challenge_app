@@ -25,7 +25,7 @@ class WalletPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "R\$$saldo",
+          "R\$${saldo.toStringAsFixed(2)}",
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -156,7 +156,7 @@ class WalletPage extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              "R\$${position.currentPrice}",
+                                              "R\$${position.currentPrice.toStringAsFixed(2)}",
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
@@ -164,7 +164,7 @@ class WalletPage extends StatelessWidget {
                                               ),
                                             ),
                                             Text(
-                                              "R\$${position.currentPrice * position.amount}",
+                                              "R\$${(position.currentPrice * position.amount).toStringAsFixed(2)}",
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.normal,

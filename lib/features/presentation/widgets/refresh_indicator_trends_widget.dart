@@ -75,7 +75,7 @@ class RefreshIndicatorTrendsWidgetState
           height: 20.0,
         ),
         Text(
-          "R\$${stock.currentPrice}",
+          "R\$${stock.currentPrice.toStringAsFixed(2)}",
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.normal,
