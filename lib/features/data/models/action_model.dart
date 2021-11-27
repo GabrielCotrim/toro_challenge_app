@@ -12,7 +12,7 @@ class ActionModel extends Action {
   factory ActionModel.fromJson(Map<String, dynamic> json) {
     return ActionModel(
       symbol: json['symbol'],
-      currentPrice: (json['currentPrice']).toInt(),
+      currentPrice: (json['currentPrice'] as num).toDouble(),
     );
   }
 

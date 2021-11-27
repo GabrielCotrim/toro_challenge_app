@@ -15,8 +15,8 @@ class UserPositionModel extends UserPosition {
 
   factory UserPositionModel.fromJson(Map<String, dynamic> json) {
     return UserPositionModel(
-        consolidated: json['consolidated'],
-        checkingAccountAmount: json['checkingAccountAmount'],
+        consolidated: (json['consolidated'] as num).toDouble(),
+        checkingAccountAmount: (json['checkingAccountAmount'] as num).toDouble(),
         positions: (json['positions'] as List)
             .map((e) => PositionModel.fromJson(e))
             .toList());

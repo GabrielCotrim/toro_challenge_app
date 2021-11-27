@@ -14,7 +14,7 @@ class PositionModel extends Position {
   factory PositionModel.fromJson(Map<String, dynamic> json) {
     return PositionModel(
       symbol: json['symbol'],
-      currentPrice: json['currentPrice'],
+      currentPrice: (json['currentPrice'] as num).toDouble(),
       amount: json['amount']
     );
   }
