@@ -1,7 +1,7 @@
-import '../../domain/entities/action.dart';
+import '../../domain/entities/stock.dart';
 
-class ActionModel extends Action {
-  const ActionModel({
+class StockModel extends Stock {
+  const StockModel({
     required String symbol,
     required double currentPrice,
   }) : super(
@@ -9,8 +9,8 @@ class ActionModel extends Action {
           currentPrice: currentPrice,
         );
 
-  factory ActionModel.fromJson(Map<String, dynamic> json) {
-    return ActionModel(
+  factory StockModel.fromJson(Map<String, dynamic> json) {
+    return StockModel(
       symbol: json['symbol'],
       currentPrice: (json['currentPrice'] as num).toDouble(),
     );

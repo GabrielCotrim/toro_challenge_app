@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class Action extends Equatable {
+class Stock extends Equatable {
   final String symbol;
   final double currentPrice;
 
-  const Action({
+  const Stock({
     required this.symbol,
     required this.currentPrice,
   });
