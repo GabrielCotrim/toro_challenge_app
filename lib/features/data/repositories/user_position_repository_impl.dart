@@ -15,9 +15,9 @@ class UserPositionRepositoryImpl implements UserPositionRepository {
   @override
   Future<Either<Failure, UserPosition>> getUserPosition() async {
     try {
-      final remoteTrivia =
+      final remoteUserPosition =
           await userPositionRemoteDataSource.getUserPosition();
-      return Right(remoteTrivia);
+      return Right(remoteUserPosition);
     } on ServerException {
       return Left(ServerFailure());
     }
