@@ -1,20 +1,16 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:toro_challenge/core/usecases/use_case.dart';
+import 'package:toro_challenge/features/presentation/bloc/generic/response_bloc.dart';
 
-import '../../../core/error/failures.dart';
 import '../../domain/entities/user_position.dart';
 import '../../domain/usecases/get_user_position.dart';
 
 part 'user_position_event.dart';
-part 'user_position_state.dart';
 
-const String SERVER_FAILURE_MESSAGE = 'Falha no servidor';
-
-class UserPositionBloc extends Bloc<UserPositionEvent, UserPositionState> {
+class UserPositionBloc extends ResponseBloc<UserPositionEvent> {
   final GetUserPosition getUserPosition;
 
-  UserPositionState get initialState => Empty();
+  ResponseState get initialState => Empty();
 
   UserPositionBloc({
     required this.getUserPosition,
@@ -23,19 +19,12 @@ class UserPositionBloc extends Bloc<UserPositionEvent, UserPositionState> {
       emit(Loading());
       final failureOrUserPosition = await getUserPosition(NoParams());
       failureOrUserPosition!.fold((failure) {
-        emit(Error(message: _mapFailureToMessage(failure)));
+        emit(Error(message: mapFailureToMessage(failure)));
       }, (userPosition) {
-        emit(Loaded(userPosition: userPosition));
+        emit(Loaded<UserPosition>(response: userPosition));
       });
     });
   }
 }
 
-String _mapFailureToMessage(Failure failure) {
-  switch (failure.runtimeType) {
-    case ServerFailure:
-      return SERVER_FAILURE_MESSAGE;
-    default:
-      return 'Unexpected error';
-  }
-}
+
