@@ -1,5 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:toro_challenge/features/data/datasources/top_trends_remote_data_source.dart';
+import 'package:toro_challenge/features/data/repositories/top_trends_repository_impl.dart';
+import 'package:toro_challenge/features/domain/repositories/top_trends_repository.dart';
+import 'package:toro_challenge/features/domain/usecases/get_top_trends.dart';
+import 'package:toro_challenge/features/presentation/bloc/top_trends_bloc.dart';
 import 'features/data/datasources/user_position_remote_data_source.dart';
 import 'features/data/repositories/user_position_repository_impl.dart';
 import 'features/domain/repositories/user_position_repository.dart';
@@ -11,25 +16,29 @@ import 'features/presentation/bloc/user_position_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  //! Features - NumberTrivia
+  //! Features
   sl.registerFactory(() => UserPositionBloc(
         getUserPosition: sl(),
       ));
-
+  sl.registerFactory(() => TopTrendsBLoc(getTopTrends: sl()));
   // Use cases
   sl.registerLazySingleton(() => GetUserPosition(sl()));
-
+  sl.registerLazySingleton(() => GetTopTrends(sl()));
   // Repository
   sl.registerLazySingleton<UserPositionRepository>(
       () => UserPositionRepositoryImpl(
             userPositionRemoteDataSource: sl(),
           ));
+  sl.registerLazySingleton<TopTrendsRepository>(
+      () => TopTrendsRepositoryImpl(topTrendsRemoteDataSource: sl()));
   // Data sources
   sl.registerLazySingleton<UserPositionRemoteDataSource>(
       () => UserPositionRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<TopTrendsRemoteDataSource>(
+      () => TopTrendsRemoteDataSourceImpl(client: sl()));
 
   var options = BaseOptions(
-    baseUrl: 'http://192.168.0.115:49156/api',
+    baseUrl: 'http://192.168.0.115:49154/api',
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );
