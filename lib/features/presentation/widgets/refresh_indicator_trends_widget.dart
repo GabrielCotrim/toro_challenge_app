@@ -2,8 +2,14 @@ import 'package:toro_challenge/core/widgets/platform_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toro_challenge/features/domain/entities/stock.dart';
+import 'package:provider/provider.dart';
+import 'package:toro_challenge/features/presentation/bloc/generic/response_bloc.dart';
+import 'package:toro_challenge/features/presentation/bloc/order_stock_bloc.dart';
 
-class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
+import 'button_pay.dart';
+import 'increment_control.dart';
+
+class RefreshIndicatorTrendsWidget extends StatefulWidget {
   const RefreshIndicatorTrendsWidget({
     Key? key,
     required this.onRefresh,
@@ -15,12 +21,48 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
   final Future<void> Function() onRefresh;
   final List<Stock> stocks;
 
-  void _onPay() {}
+  @override
+  State<RefreshIndicatorTrendsWidget> createState() =>
+      RefreshIndicatorTrendsWidgetState();
+}
+
+class RefreshIndicatorTrendsWidgetState
+    extends PlatformStateWidget<RefreshIndicatorTrendsWidget> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<OrderStockBloc>().stream.listen((event) {
+      if (event is Loaded) {
+        _showSnackBar("Sucesso");
+      } else if (event is Error) {
+        _showSnackBar("Falha na compra");
+      }
+    });
+  }
+
+  void _onPay(String symbol, int amount) {
+    context.read<OrderStockBloc>().add(
+          PostOrderStockEvent(
+            symbol: symbol,
+            amount: amount,
+          ),
+        );
+  }
+
+  void _showSnackBar(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
+        label: "Fechar",
+        onPressed: () {},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   Widget _buildStockDescription(Stock stock) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
           stock.symbol,
@@ -28,6 +70,9 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
+        ),
+        const SizedBox(
+          height: 20.0,
         ),
         Text(
           "R\$${stock.currentPrice}",
@@ -45,12 +90,13 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
     return CustomScrollView(
       slivers: [
         CupertinoSliverRefreshControl(
-          onRefresh: onRefresh,
+          onRefresh: widget.onRefresh,
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              final stock = stocks.elementAt(index);
+              final stock = widget.stocks.elementAt(index);
+              int _amount = 1;
               return Card(
                 elevation: 0.0,
                 margin: const EdgeInsets.symmetric(
@@ -65,24 +111,22 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       _buildStockDescription(stock),
-                      CupertinoButton(
-                        color: CupertinoTheme.of(context).primaryColor,
-                        padding: const EdgeInsets.all(10.0),
-                        child: const Text(
-                          "Comprar",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      Column(
+                        children: [
+                          ButtonPay(onPressed: () {
+                            _onPay(stock.symbol, _amount);
+                          }),
+                          IncrementControl(
+                            onRefreshAmount: (int amount) => _amount = amount,
                           ),
-                        ),
-                        onPressed: _onPay,
+                        ],
                       ),
                     ],
                   ),
                 ),
               );
             },
-            childCount: stocks.length,
+            childCount: widget.stocks.length,
           ),
         )
       ],
@@ -92,11 +136,12 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
   @override
   Widget buildMaterialWidget(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: onRefresh,
+      onRefresh: widget.onRefresh,
       child: ListView.builder(
-        itemCount: stocks.length,
+        itemCount: widget.stocks.length,
         itemBuilder: (BuildContext context, int index) {
-          final stock = stocks.elementAt(index);
+          final stock = widget.stocks.elementAt(index);
+          int _amount = 1;
           return Card(
             elevation: 2.0,
             margin: const EdgeInsets.symmetric(
@@ -106,37 +151,20 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(15.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   _buildStockDescription(stock),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor,
+                  Column(
+                    children: [
+                      ButtonPay(onPressed: () {
+                        _onPay(stock.symbol, _amount);
+                      }),
+                      IncrementControl(
+                        onRefreshAmount: (int amount) => _amount = amount,
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          side: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        "Comprar",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    onPressed: _onPay,
+                    ],
                   ),
                 ],
               ),
