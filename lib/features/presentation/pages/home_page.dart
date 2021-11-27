@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toro_challenge/features/presentation/bloc/top_trends_bloc.dart';
 
 import '../../../core/widgets/platform_stateless_widget.dart';
 import '../bloc/user_position_bloc.dart';
@@ -43,6 +44,7 @@ class _HomeStatePage extends PlatformStateWidget<HomePage> {
   @override
   void initState() {
     context.read<UserPositionBloc>().add(GetUserPositionEvent());
+    context.read<TopTrendsBLoc>().add(GetTopTrendsEvent());
     super.initState();
   }
 
