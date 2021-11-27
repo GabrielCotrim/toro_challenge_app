@@ -1,35 +1,44 @@
 import 'package:toro_challenge/core/widgets/platform_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toro_challenge/features/domain/entities/stock.dart';
 
 class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
   const RefreshIndicatorTrendsWidget({
     Key? key,
     required this.onRefresh,
     required this.onPayAction,
+    required this.stocks,
   }) : super(key: key);
 
   final void Function(dynamic action)? onPayAction;
   final Future<void> Function() onRefresh;
+  final List<Stock> stocks;
 
   void _onPay() {}
 
-  static const List<Widget> _actions = <Widget>[
-    Text(
-      "TORO4",
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    Text(
-      "115.98",
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-      ),
-    ),
-  ];
+  Widget _buildStockDescription(Stock stock) {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        Text(
+          stock.symbol,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          "R\$${stock.currentPrice}",
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget buildCupertinoWidget(BuildContext context) {
@@ -41,6 +50,7 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
+              final stock = stocks.elementAt(index);
               return Card(
                 elevation: 0.0,
                 margin: const EdgeInsets.symmetric(
@@ -54,11 +64,7 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: _actions,
-                      ),
+                      _buildStockDescription(stock),
                       CupertinoButton(
                         color: CupertinoTheme.of(context).primaryColor,
                         padding: const EdgeInsets.all(10.0),
@@ -76,7 +82,7 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
                 ),
               );
             },
-            childCount: 5,
+            childCount: stocks.length,
           ),
         )
       ],
@@ -88,8 +94,9 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: stocks.length,
         itemBuilder: (BuildContext context, int index) {
+          final stock = stocks.elementAt(index);
           return Card(
             elevation: 2.0,
             margin: const EdgeInsets.symmetric(
@@ -103,11 +110,7 @@ class RefreshIndicatorTrendsWidget extends PlatformStatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: _actions,
-                  ),
+                  _buildStockDescription(stock),
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
