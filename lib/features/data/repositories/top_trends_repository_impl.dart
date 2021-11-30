@@ -18,7 +18,9 @@ class TopTrendsRepositoryImpl implements TopTrendsRepository {
       final remoteTopTrends = await topTrendsRemoteDataSource.getTopTrends();
       return Right(remoteTopTrends);
     } on ServerException {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
+    } catch (_) {
+      return const Left(ConnectionFailure());
     }
   }
 }

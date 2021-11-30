@@ -19,7 +19,9 @@ class UserPositionRepositoryImpl implements UserPositionRepository {
           await userPositionRemoteDataSource.getUserPosition();
       return Right(remoteUserPosition);
     } on ServerException {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
+    } catch (_) {
+      return const Left(ConnectionFailure());
     }
   }
 }

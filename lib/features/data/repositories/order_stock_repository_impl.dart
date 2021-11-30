@@ -18,7 +18,9 @@ class OrderStockRepositoryImpl implements OrderStockRepository {
           await orderStockRemoteDataSource.postOrderStock(symbol, amount);
       return Right(remote);
     } on ServerException {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
+    } catch (_) {
+      return const Left(ConnectionFailure());
     }
   }
 }
