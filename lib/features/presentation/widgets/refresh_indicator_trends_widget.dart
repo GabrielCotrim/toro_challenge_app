@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +31,11 @@ class RefreshIndicatorTrendsWidget extends StatefulWidget {
 
 class RefreshIndicatorTrendsWidgetState
     extends PlatformStateWidget<RefreshIndicatorTrendsWidget> {
+  late StreamSubscription<ResponseState> _subscription;
   @override
   void initState() {
     super.initState();
-    context.read<OrderStockBloc>().stream.listen((event) {
+    _subscription = context.read<OrderStockBloc>().stream.listen((event) {
       if (event is Loaded) {
         _showSnackBar("Sucesso");
         context.read<UserPositionBloc>().add(GetUserPositionEvent());
@@ -40,6 +43,12 @@ class RefreshIndicatorTrendsWidgetState
         _showSnackBar("Falha na compra");
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   void _onPay(String symbol, int amount) {
