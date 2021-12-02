@@ -1,11 +1,12 @@
-import 'package:toro_challenge/core/widgets/platform_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toro_challenge/features/domain/entities/stock.dart';
 import 'package:provider/provider.dart';
-import 'package:toro_challenge/features/presentation/bloc/generic/response_bloc.dart';
-import 'package:toro_challenge/features/presentation/bloc/order_stock_bloc.dart';
 
+import '../../../core/widgets/platform_stateless_widget.dart';
+import '../../domain/entities/stock.dart';
+import '../bloc/generic/response_bloc.dart';
+import '../bloc/order_stock_bloc.dart';
+import '../bloc/user_position_bloc.dart';
 import 'button_pay.dart';
 import 'increment_control.dart';
 
@@ -34,6 +35,7 @@ class RefreshIndicatorTrendsWidgetState
     context.read<OrderStockBloc>().stream.listen((event) {
       if (event is Loaded) {
         _showSnackBar("Sucesso");
+        context.read<UserPositionBloc>().add(GetUserPositionEvent());
       } else if (event is Error) {
         _showSnackBar("Falha na compra");
       }
